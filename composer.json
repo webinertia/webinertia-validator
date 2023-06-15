@@ -1,6 +1,6 @@
 {
     "name": "webinertia/webinertia-validator",
-    "description": "Provides filters for Webinertia components",
+    "description": "Provides Validators for Webinertia components",
     "license": "BSD-3-Clause",
     "keywords": [
         "laminas",

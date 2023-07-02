@@ -24,9 +24,9 @@
     },
     "require-dev": {
         "laminas/laminas-coding-standard": "^2.5.0",
-        "phpunit/phpunit": "10.2.2",
+        "phpunit/phpunit": "10.2.3",
         "psalm/plugin-phpunit": "^0.18.4",
-        "phpstan/phpstan": "1.10.21",
+        "phpstan/phpstan": "1.10.22",
         "laminas/laminas-test": "^4.8",
         "phpstan/extension-installer": "^1.2",
         "slam/phpstan-laminas-framework": "^1.4"

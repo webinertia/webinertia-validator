@@ -8,12 +8,13 @@ use Laminas\ServiceManager\Factory;
 
 final class ConfigProvider
 {
-    public function getDependencyConfig(): array
+    public function __invoke():  array
     {
-        return [];
+        return [
+            'dependencies' => $this->getDependencyConfig(),
+        ];
     }
-
-    public function getValidatorConfig(): array
+    public function getDependencyConfig(): array
     {
         return [
             'factories' => [

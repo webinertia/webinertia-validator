@@ -23,10 +23,10 @@
         "laminas/laminas-validator": "^2.32.0"
     },
     "require-dev": {
-        "laminas/laminas-coding-standard": "^2.5.0",
-        "phpunit/phpunit": "10.2.6",
+        "laminas/laminas-coding-standard": "^2.5",
+        "phpunit/phpunit": "^10.2",
         "psalm/plugin-phpunit": "^0.18.4",
-        "phpstan/phpstan": "1.10.25",
+        "phpstan/phpstan": "^1.10",
         "laminas/laminas-test": "^4.8",
         "phpstan/extension-installer": "^1.2",
         "slam/phpstan-laminas-framework": "^1.4"

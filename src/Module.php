@@ -10,7 +10,7 @@ final class Module
     {
         $configProvider = new ConfigProvider();
         return [
-            'validators' => $configProvider->getValidatorConfig(),
+            'validators' => $configProvider->getDependencyConfig(),
         ];
     }
 }

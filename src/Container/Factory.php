@@ -7,9 +7,10 @@ namespace Webinertia\Validator\Container;
 use Laminas\Validator\ValidatorInterface;
 use Psr\Container\ContainerInterface;
 
+/** @internal */
 final class Factory
 {
-    public final const APP_SETTINGS_KEY = 'app_settings';
+    public const APP_SETTINGS_KEY = 'app_settings';
 
     public function __invoke(ContainerInterface $container, string $requestedName): ValidatorInterface
     {

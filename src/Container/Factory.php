@@ -25,5 +25,6 @@ final class Factory
         if (! empty($config[$requestedName::class])) {
             return new $requestedName($config[$requestedName::class]);
         }
+        return new $requestedName();
     }
 }

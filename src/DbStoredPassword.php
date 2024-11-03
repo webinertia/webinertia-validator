@@ -62,7 +62,8 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
     protected $options = [
         'table'           => null, // string table name or TableIdentifier instance
         'password_column' => null, // password column
-        'primary_key'     => null, // primary key of passed table
+        'pkColumn'        => null, // primary key of passed table
+        'pkValue'         => null, // value for pk
     ];
 
     public function __construct(

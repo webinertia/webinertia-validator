@@ -34,11 +34,11 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
 
     protected array|string $pkColumn;
 
-    protected array|string $pkValue;
+    protected array|string|int $pkValue;
 
     protected Select $select;
 
-    protected string $schema;
+    protected ?string $schema = null;
 
     protected TableIdentifier|string $table;
 
@@ -73,18 +73,18 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
             $options = ArrayUtils::iteratorToArray($options);
         }
 
-        if (! array_key_exists('adapter', $options) && ! $this->adapter instanceof AdapterInterface) {
-            throw new InvalidArgumentException(
-                'adapter option must be passed or an instance of AdapterInterface must be set on this instance!'
-            );
-        }
+        // if (! array_key_exists('adapter', $options) && ! $this->adapter instanceof AdapterInterface) {
+        //     throw new InvalidArgumentException(
+        //         'adapter option must be passed or an instance of AdapterInterface must be set on this instance!'
+        //     );
+        // }
 
         if (array_key_exists('adapter', $options) && $options['adapter'] instanceof AdapterInterface) {
             // prefer the passed adapter
             $this->setDbAdapter($options['adapter']);
         }
 
-        if (! array_key_exists('select', $options) || ! $options['select'] instanceof Select) {
+        if (! array_key_exists('select', $options)) {
             if (! array_key_exists('password_column', $options)) {
                 throw new InvalidArgumentException('password_column option is missing!');
             }
@@ -111,7 +111,7 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
                 $this->table = $options['table'];
             }
 
-            if (array_key_exists('schema', $options['schema'])) {
+            if (array_key_exists('schema', $options)) {
                 $this->schema = $options['schema'];
             }
         } else {
@@ -122,12 +122,17 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
 
     public function isValid($value)
     {
+        $isValid    = false;
         $storedData = $this->query();
+        if (isset($storedData[$this->passwordColumn])) {
+            $isValid = password_verify($value, $storedData[$this->passwordColumn]);
+        }
+        return $isValid;
     }
 
     protected function getSelect(): Select
     {
-        if ($this->select instanceof Select) {
+        if (isset($this->select) && $this->select instanceof Select) {
             return $this->select;
         }
 
@@ -143,7 +148,7 @@ final class DbStoredPassword extends AbstractValidator implements AdapterAwareIn
         return $this->select;
     }
 
-    protected function query(): ?array
+    protected function query(): bool|array
     {
         $sql       = new Sql($this->adapter);
         $select    = $this->getSelect();

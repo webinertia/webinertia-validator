@@ -6,6 +6,7 @@ namespace Webinertia\Validator\Container;
 
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\AdapterAwareInterface;
+use Laminas\Stdlib\ArrayUtils;
 use Laminas\Validator\ValidatorInterface;
 use Psr\Container\ContainerInterface;
 
@@ -14,7 +15,7 @@ final class Factory
 {
     public const APP_SETTINGS_KEY = 'app_settings';
 
-    public function __invoke(ContainerInterface $container, string $requestedName): ValidatorInterface
+    public function __invoke(ContainerInterface $container, string $requestedName, array $options = []): ValidatorInterface
     {
         if (! $container->has('config')) {
             return new $requestedName();
@@ -22,15 +23,15 @@ final class Factory
         $validatorConfig = [];
         $config          = $container->get('config');
         // all others would probably just add config top level
-        if (! empty($config[$requestedName::class])) {
-            $validatorConfig = $config[$requestedName::class];
+        if (! empty($config[$requestedName])) {
+            $validatorConfig = $config[$requestedName];
         }
         // prefer Webinertia config
-        if (! empty($config[static::APP_SETTINGS_KEY][$requestedName::class])) {
-            $validatorConfig = $config[static::APP_SETTINGS_KEY][$requestedName::class];
+        if (! empty($config[static::APP_SETTINGS_KEY][$requestedName])) {
+            $validatorConfig = $config[static::APP_SETTINGS_KEY][$requestedName];
         }
-
-        $instance = new $requestedName($validatorConfig);
+        $merged = ArrayUtils::merge($validatorConfig, $options);
+        $instance = new $requestedName($merged);
 
         if ($instance instanceof AdapterAwareInterface && $container->has(AdapterInterface::class)) {
             $instance->setDbAdapter($container->get(AdapterInterface::class));

@@ -15,7 +15,7 @@ use function iterator_to_array;
 use function preg_match_all;
 use function strlen;
 
-final class Password extends AbstractValidator
+final class PasswordRequirement extends AbstractValidator
 {
     /** Supported special characters */
     public const POSSIBLE_SPECIAL_CHARS = '/[].\'"+=\[\\\\@_!\#$%^&*()<>?|}{~:-]/';
